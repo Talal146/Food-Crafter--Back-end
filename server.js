@@ -1,8 +1,9 @@
 const express = require('express');
 const logger = require('morgan');
 // const cors = require('cors')
-
+require('./seeders/categories');
 const AuthRouter = require('./routes/AuthRouter');
+const CategoryRouter = require('./routes/CategoryRouter');
 
 const PORT = process.env.PORT || 3001;
 
@@ -16,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', AuthRouter);
+app.use('/categories', CategoryRouter);
 
 app.use('/', (req, res) => {
 	res.send(`Connected!`);
