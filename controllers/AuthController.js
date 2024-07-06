@@ -1,54 +1,27 @@
 const { User } = require('../models')
 const middleware = require('../middleware')
 
-const register = async (req, res) => {
+const Register = async (req, res) => {
   try {
-    let userObj
-    // TODO make a method that check email and password
-    if (req.body.trainer) {
-      userObj = {
-        name: req.body.name,
-        email: req.body.email,
-        // passwordDigest: req.body.passwordDigest,
-        trainer: true,
-        trainees: []
-      }
-    } else {
-      userObj = {
-        name: req.body.name,
-        contact: req.body.contact,
-        email: req.body.email,
-        // passwordDigest: req.body.passwordDigest,
-      }
-    }
-    // TODO checking if acc exist before register
-    console.log('printing password')
-    const { password } = req.body
+    // Extracts the necessary fields from the request body
+    const { email, password, name } = req.body
     // Hashes the provided password
-    console.log({ password })
     let passwordDigest = await middleware.hashPassword(password)
     // Checks if there has already been a user registered with that email
-    let existingUser = await User.findOne({ email: userObj.email })
-    console.log('before if statement')
+    let existingUser = await User.findOne({ email })
     if (existingUser) {
-      console.log('true existing user')
       return res
         .status(400)
         .send('A user with that email has already been registered!')
     } else {
-      console.log('false existing user')
       // Creates a new user
-      const finalUserObj = { ...userObj, passwordDigest }
-      console.log('finalUserObj ==> ', JSON.stringify(finalUserObj, null, 2))
-      const user = await User.create({ ...userObj, passwordDigest })
+      const user = await User.create({ name, email, passwordDigest })
       // Sends the user as a response
       res.send(user)
     }
   } catch (error) {
     throw error
   }
-  // let user = await User.create(userObj)
-  // res.send(user)
 }
 
 const Login = async (req, res) => {
@@ -93,24 +66,17 @@ const UpdatePassword = async (req, res) => {
     // If they match, hashes the new password, updates the db with the new digest, then sends the user as a response
     if (matched) {
       let passwordDigest = await middleware.hashPassword(newPassword)
-      user = await User.findByIdAndUpdate(req.params.user_id, {
-        passwordDigest
-      })
+      user = await User.findByIdAndUpdate(req.params.user_id, { passwordDigest })
       let payload = {
         id: user.id,
         email: user.email
       }
       return res.send({ status: 'Password Updated!', user: payload })
     }
-    res
-      .status(401)
-      .send({ status: 'Error', msg: 'Old Password did not match!' })
+    res.status(401).send({ status: 'Error', msg: 'Old Password did not match!' })
   } catch (error) {
     console.log(error)
-    res.status(401).send({
-      status: 'Error',
-      msg: 'An error has occurred updating password!'
-    })
+    res.status(401).send({ status: 'Error', msg: 'An error has occurred updating password!' })
   }
 }
 
@@ -120,7 +86,7 @@ const CheckSession = async (req, res) => {
 }
 
 module.exports = {
-  register,
+  Register,
   Login,
   UpdatePassword,
   CheckSession
