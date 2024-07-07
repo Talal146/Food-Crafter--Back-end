@@ -3,7 +3,7 @@ const logger = require('morgan');
 
 require('./seeders/categories');
 const AuthRouter = require('./routes/AuthRouter');
-const CategoryRouter = require('./routes/CategoryRouter');
+const CategoryRouter = require('./routes/categoryRouter');
 
 const PORT = process.env.PORT || 3001;
 
