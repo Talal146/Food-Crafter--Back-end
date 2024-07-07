@@ -16,6 +16,11 @@ const categories = [
 		image:
 			'https://www.tastingtable.com/img/gallery/regional-chinese-food-explained/l-intro-1669836324.jpg',
 	},
+	{
+		name: 'Indian',
+		image:
+			'https://res.cloudinary.com/hz3gmuqw6/image/upload/c_fill,q_auto,w_750/f_auto/tk-traditional-indian-foods-to-taste-in-2022-phpEXAXNS',
+	},
 ];
 
 const seedCategories = async () => {

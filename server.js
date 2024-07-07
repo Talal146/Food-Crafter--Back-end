@@ -3,7 +3,8 @@ const logger = require('morgan');
 
 require('./seeders/categories');
 const AuthRouter = require('./routes/AuthRouter');
-const CategoryRouter = require('./routes/categoryRouter');
+const CategoryRouter = require('./routes/CategoryRouter');
+const RecipeRouter = require('./routes/RecipeRouter');
 
 const PORT = process.env.PORT || 3001;
 
@@ -17,6 +18,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/auth', AuthRouter);
 app.use('/categories', CategoryRouter);
+app.use('/recipes', RecipeRouter);
 
 app.use('/', (req, res) => {
 	res.send(`Connected!`);

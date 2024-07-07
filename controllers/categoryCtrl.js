@@ -5,14 +5,10 @@ const getAllCategories = async (req, res) => {
 		let categories = await Category.find({});
 		res.send(categories);
 	} catch (error) {
-		console.error('Error fetching categories', erorr);
+		console.error('Error fetching categories', error);
 	}
 };
 
-
-
-
 module.exports = {
 	getAllCategories,
-
 };
