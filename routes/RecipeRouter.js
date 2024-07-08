@@ -9,5 +9,10 @@ router.post(
   middleware.verifyToken,
   recipeCtrl.createRecipe
 )
-
+router.delete(
+  '/:id',
+  middleware.stripToken,
+  middleware.verifyToken,
+  recipeCtrl.deleteRecipe
+)
 module.exports = router
