@@ -9,6 +9,16 @@ const getAllRecipes = async (req, res) => {
 	}
 };
 
+const createRecipe = async (req,res)=>{
+	try {
+		await Recipe.create(req.body);
+		res.send(req.body)
+	} catch (error) {
+		console.error('Erorr creating recipe', error);
+	}
+}
+
 module.exports = {
 	getAllRecipes,
+	createRecipe
 };
