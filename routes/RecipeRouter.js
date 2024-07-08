@@ -15,4 +15,10 @@ router.delete(
   middleware.verifyToken,
   recipeCtrl.deleteRecipe
 )
+router.put(
+  '/:id',
+  middleware.stripToken,
+  middleware.verifyToken,
+  recipeCtrl.updateRecipe
+)
 module.exports = router
