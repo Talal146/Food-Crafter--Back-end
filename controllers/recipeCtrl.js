@@ -29,14 +29,14 @@ const updateRecipe = async (req, res) => {
       image: req.body.image
     })
     res.send({
-      msg: 'Recipe Deleted',
+      msg: 'Recipe updated',
       payload: req.params.recipe_id,
       status: 'Ok'
     })
   } else {
     res
       .status(402)
-      .json({ error: 'other users cant delete recipes by other users' })
+      .json({ error: 'other users cant update recipes by other users' })
   }
 }
 
@@ -47,14 +47,14 @@ const deleteRecipe = async (req, res) => {
       recipe_id: req.params.id
     })
     res.send({
-      msg: 'Recipe updated',
+      msg: 'Recipe deleted',
       payload: req.params.recipe_id,
       status: 'Ok'
     })
   } else {
     res
       .status(402)
-      .json({ error: 'other users cant updated recipes by other users' })
+      .json({ error: 'other users cant delete recipes by other users' })
   }
 }
 module.exports = {
