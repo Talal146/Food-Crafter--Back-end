@@ -11,26 +11,23 @@ const getAllRecipes = async (req, res) => {
 
 const createRecipe = async (req, res) => {
   try {
-    await Recipe.create({ ...req.body, userId: res?.locals?.payload?.id })
+    await Recipe.create({ ...req.body, userId: res.locals.payload.id })
     res.send(req.body)
   } catch (error) {
     console.error('Erorr creating recipe', error)
   }
 }
 
-const updateRecipe= async (req,res)=>{
-	const recipe = await Recipe.findById(req.params.id)
-	if (recipe && recipe.userId == res.locals.payload.id) {
-    await Recipe.findByIdAndUpdate(
-      req.params.id, 
-			{
-				name: req.body.name,
-				categoryId: req.body.categoryId,
-				ingredients: req.body.ingredients,
-				steps: req.body.steps,
-				image: req.body.image
-			}
-  )
+const updateRecipe = async (req, res) => {
+  const recipe = await Recipe.findById(req.params.id)
+  if (recipe && recipe.userId == res.locals.payload.id) {
+    await Recipe.findByIdAndUpdate(req.params.id, {
+      name: req.body.name,
+      categoryId: req.body.categoryId,
+      ingredients: req.body.ingredients,
+      steps: req.body.steps,
+      image: req.body.image
+    })
     res.send({
       msg: 'Recipe Deleted',
       payload: req.params.recipe_id,
@@ -42,7 +39,6 @@ const updateRecipe= async (req,res)=>{
       .json({ error: 'other users cant delete recipes by other users' })
   }
 }
-
 
 const deleteRecipe = async (req, res) => {
   const recipe = await Recipe.findById(req.params.id)
@@ -65,5 +61,5 @@ module.exports = {
   getAllRecipes,
   createRecipe,
   deleteRecipe,
-	updateRecipe
+  updateRecipe
 }
