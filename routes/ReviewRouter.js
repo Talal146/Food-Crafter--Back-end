@@ -2,7 +2,9 @@ const router = require('express').Router()
 const reviewCtrl = require('../controllers/reviewCtrl')
 const middleware = require('../middleware')
 
-router.get('/:recipeId', reviewCtrl.getReviewReviews)
+router.get('/all_reviews/:recipeId', reviewCtrl.getRecipeReviews)
+router.get('/:reviewId', reviewCtrl.getOneReview)
+
 router.post(
   '/',
   middleware.stripToken,

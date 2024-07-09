@@ -1,6 +1,6 @@
 const { Review } = require('../models')
 
-const getReviewReviews = async (req, res) => {
+const getRecipeReviews = async (req, res) => {
   try {
     let recipeId = req.params.recipeId
     let reviews = await Review.find({ recipeId: recipeId })
@@ -8,6 +8,12 @@ const getReviewReviews = async (req, res) => {
   } catch (error) {
     console.error('Erorr fetching reviews', error)
   }
+}
+
+const getOneReview = async (req, res) => {
+  const reviewId = req.params.reviewId
+  const review = await Review.findById(reviewId)
+  res.send(review)
 }
 
 const createReview = async (req, res) => {
@@ -56,8 +62,9 @@ const deleteReview = async (req, res) => {
   }
 }
 module.exports = {
-  getReviewReviews,
+  getRecipeReviews,
   createReview,
   deleteReview,
-  updateReview
+  updateReview,
+  getOneReview
 }

@@ -8,6 +8,11 @@ const getAllRecipes = async (req, res) => {
     console.error('Erorr fetching recipes', error)
   }
 }
+const getOneRecipe = async (req, res) => {
+  const recipeId = req.params.recipeId
+  const recipe = await Recipe.findById(recipeId)
+  res.send(recipe)
+}
 
 const createRecipe = async (req, res) => {
   try {
@@ -61,5 +66,6 @@ module.exports = {
   getAllRecipes,
   createRecipe,
   deleteRecipe,
-  updateRecipe
+  updateRecipe,
+  getOneRecipe
 }
