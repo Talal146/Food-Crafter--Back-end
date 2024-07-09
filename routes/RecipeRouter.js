@@ -5,9 +5,20 @@ const middleware = require('../middleware')
 router.get('/', recipeCtrl.getAllRecipes)
 router.post(
   '/',
-  // middleware.stripToken,
-  // middleware.verifyToken,
+  middleware.stripToken,
+  middleware.verifyToken,
   recipeCtrl.createRecipe
 )
-
+router.delete(
+  '/:id',
+  middleware.stripToken,
+  middleware.verifyToken,
+  recipeCtrl.deleteRecipe
+)
+router.put(
+  '/:id',
+  middleware.stripToken,
+  middleware.verifyToken,
+  recipeCtrl.updateRecipe
+)
 module.exports = router
