@@ -29,8 +29,8 @@ const updateReview = async (req, res) => {
   const review = await Review.findById(req.params.id)
   if (review && review.userId == res.locals.payload.id) {
     await Review.findByIdAndUpdate(req.params.id, {
-      comment: req.body.comment,
-      rating: req.body.rating
+      comment: req.body.comment
+      
     })
     res.send({
       msg: 'Review updated',

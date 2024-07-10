@@ -4,9 +4,7 @@ const ReviewSchema = new Schema({
 	comment: {
 		type: String,
 	},
-	rating: {
-		type: Number,
-	},
+
 	userId: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
