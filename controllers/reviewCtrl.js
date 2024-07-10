@@ -17,13 +17,20 @@ const getOneReview = async (req, res) => {
 }
 
 const createReview = async (req, res) => {
+  console.log('Request Body:', req.body)
   try {
-    await Review.create({ ...req.body, userId: res.locals.payload.id })
-    res.send(req.body)
+    const review = await Review.create({
+      comment: req.body.comment,
+      recipeId: req.body.recipeId,
+      userId: res.locals.payload.id
+    })
+    res.send(review)
   } catch (error) {
-    console.error('Error creating review', error)
+    console.error('Error creating review:', error)
+    res.status(400).send({ error: 'Error creating review' })
   }
 }
+
 
 const updateReview = async (req, res) => {
   const review = await Review.findById(req.params.id)
