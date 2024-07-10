@@ -8,6 +8,11 @@ const getAllRecipes = async (req, res) => {
     console.error('Erorr fetching recipes', error)
   }
 }
+const getOneRecipe = async (req, res) => {
+  const recipeId = req.params.recipeId
+  const recipe = await Recipe.findById(recipeId)
+  res.send(recipe)
+}
 
 const createRecipe = async (req, res) => {
   try {
@@ -29,7 +34,23 @@ const updateRecipe = async (req, res) => {
       image: req.body.image
     })
     res.send({
-      msg: 'Recipe Deleted',
+      msg: 'Recipe updated',
+      payload: req.params.recipe_id,
+      status: 'Ok'
+    })
+  } else {
+    res
+      .status(402)
+      .json({ error: 'other users cant update recipes by other users' })
+  }
+}
+
+const deleteRecipe = async (req, res) => {
+  const recipe = await Recipe.findById(req.params.id)
+  if (recipe && recipe.userId == res.locals.payload.id) {
+    await Recipe.deleteOne({ _id: req.params.id })
+    res.send({
+      msg: 'Recipe deleted',
       payload: req.params.recipe_id,
       status: 'Ok'
     })
@@ -39,25 +60,10 @@ const updateRecipe = async (req, res) => {
       .json({ error: 'other users cant delete recipes by other users' })
   }
 }
-
-const deleteRecipe = async (req, res) => {
-  const recipe = await Recipe.findById(req.params.id)
-  if (recipe && recipe.userId == res.locals.payload.id) {
-    await Recipe.deleteOne({ _id: req.params.id })
-    res.send({
-      msg: 'Recipe updated',
-      payload: req.params.recipe_id,
-      status: 'Ok'
-    })
-  } else {
-    res
-      .status(402)
-      .json({ error: 'other users cant updated recipes by other users' })
-  }
-}
 module.exports = {
   getAllRecipes,
   createRecipe,
   deleteRecipe,
-  updateRecipe
+  updateRecipe,
+  getOneRecipe
 }

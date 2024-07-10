@@ -6,6 +6,7 @@ require('./seeders/categories')
 const AuthRouter = require('./routes/AuthRouter')
 const CategoryRouter = require('./routes/CategoryRouter')
 const RecipeRouter = require('./routes/RecipeRouter')
+const ReviewRouter = require('./routes/ReviewRouter')
 
 const PORT = process.env.PORT || 3001
 
@@ -21,6 +22,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/auth', AuthRouter)
 app.use('/categories', CategoryRouter)
 app.use('/recipes', RecipeRouter)
+app.use('/reviews', ReviewRouter)
 
 app.use('/', (req, res) => {
   res.send(`Connected!`)

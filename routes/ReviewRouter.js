@@ -1,25 +1,26 @@
 const router = require('express').Router()
-const recipeCtrl = require('../controllers/recipeCtrl')
+const reviewCtrl = require('../controllers/reviewCtrl')
 const middleware = require('../middleware')
 
-router.get('/', recipeCtrl.getAllRecipes)
-router.get('/:recipeId', recipeCtrl.getOneRecipe)
+router.get('/all_reviews/:recipeId', reviewCtrl.getRecipeReviews)
+router.get('/:reviewId', reviewCtrl.getOneReview)
+
 router.post(
   '/',
   middleware.stripToken,
   middleware.verifyToken,
-  recipeCtrl.createRecipe
+  reviewCtrl.createReview
 )
 router.delete(
   '/:id',
   middleware.stripToken,
   middleware.verifyToken,
-  recipeCtrl.deleteRecipe
+  reviewCtrl.deleteReview
 )
 router.put(
   '/:id',
   middleware.stripToken,
   middleware.verifyToken,
-  recipeCtrl.updateRecipe
+  reviewCtrl.updateReview
 )
 module.exports = router
