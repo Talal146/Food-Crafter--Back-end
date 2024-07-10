@@ -48,9 +48,7 @@ const updateRecipe = async (req, res) => {
 const deleteRecipe = async (req, res) => {
   const recipe = await Recipe.findById(req.params.id)
   if (recipe && recipe.userId == res.locals.payload.id) {
-    await Recipe.deleteOne({
-      recipe_id: req.params.id
-    })
+    await Recipe.deleteOne({ _id: req.params.id })
     res.send({
       msg: 'Recipe deleted',
       payload: req.params.recipe_id,
