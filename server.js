@@ -2,7 +2,6 @@ const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 
-require('./seeders/categories')
 const AuthRouter = require('./routes/AuthRouter')
 const CategoryRouter = require('./routes/CategoryRouter')
 const RecipeRouter = require('./routes/RecipeRouter')
