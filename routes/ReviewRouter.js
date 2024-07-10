@@ -23,4 +23,5 @@ router.put(
   middleware.verifyToken,
   reviewCtrl.updateReview
 )
+
 module.exports = router
