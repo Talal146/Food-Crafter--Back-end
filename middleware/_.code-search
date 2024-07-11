@@ -1,0 +1,219 @@
+# Query: //
+# ContextLines: 1
+
+79 results - 13 files
+
+Food-Crafter--Back-end/README.md:
+   6  
+   7: ##### Tala Alshwaier [GitHub](https://github.com/Talal146) | [LinkedIn](www.linkedin.com/in/talal-alshwaier)
+   8  
+   9: ##### Jawad Alberri [GitHub](https://github.com/jawadbri) | [LinkedIn](https://www.linkedin.com/in/jawadalberri/)
+  10  
+  11: ##### Mohammed Saeed [GitHub](https://github.com/m00hammed) | [LinkedIn](www.linkedin.com/in/mohammed-saeed776)
+  12  
+
+  22  
+  23: ![tecno](https://miro.medium.com/v2/resize:fit:560/1*b9xOf5RushSbTofFqjbnyw.png)
+  24  
+
+  38  
+  39: [**_wireframe_**](https://files.fm/u/6ctfwzz7f2) || [**_trello_**](https://trello.com/b/QHehu7mB/food-crafters) || [**_CHD_**](https://drive.google.com/file/d/1cOQICWxWxjNVsLYXrufvmCpKrRWwj-7L/view?usp=sharing) || [**_ERD_**](https://drive.google.com/file/d/1Wjl5sS7x-iTwuP1lkzwSzUpzkRCm0stC/view)
+  40  
+  41: [**_the front-end_**](https://github.com/Talal146/Food-Crafter--Front-end)
+  42  
+
+Food-Crafter--Back-end/controllers/AuthController.js:
+   5    try {
+   6:     // Extracts the necessary fields from the request body
+   7      const { email, password, name } = req.body
+   8:     // Hashes the provided password
+   9      let passwordDigest = await middleware.hashPassword(password)
+  10:     // Checks if there has already been a user registered with that email
+  11      let existingUser = await User.findOne({ email })
+
+  16      } else {
+  17:       // Creates a new user
+  18        const user = await User.create({ name, email, passwordDigest })
+  19:       // Sends the user as a response
+  20        res.send(user)
+
+  28    try {
+  29:     // Extracts the necessary fields from the request body
+  30      const { email, password } = req.body
+  31:     // Finds a user by a particular field (in this case, email)
+  32      const user = await User.findOne({ email })
+  33:     // Checks if the password matches the stored digest
+  34      let matched = await middleware.comparePassword(
+
+  37      )
+  38:     // If they match, constructs a payload object of values we want on the front end
+  39      if (matched) {
+
+  43        }
+  44:       // Creates our JWT and packages it with our payload to send as a response
+  45        let token = middleware.createToken(payload)
+
+  56    try {
+  57:     // Extracts the necessary fields from the request body
+  58      const { oldPassword, newPassword } = req.body
+  59:     // Finds a user by a particular field (in this case, the user's id from the URL param)
+  60      let user = await User.findById(req.params.user_id)
+  61:     // Checks if the password matches the stored digest
+  62      let matched = await middleware.comparePassword(
+
+  65      )
+  66:     // If they match, hashes the new password, updates the db with the new digest, then sends the user as a response
+  67      if (matched) {
+
+Food-Crafter--Back-end/db/index.js:
+  12  
+  13: // mongoose.set('debug', true)
+  14  
+
+Food-Crafter--Back-end/middleware/index.js:
+   8  const hashPassword = async (password) => {
+   9:   // Accepts a password from the request body
+  10    let hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
+  11:   // Creates a hashed password and encrypts it 12 times
+  12    return hashedPassword
+
+  15  const comparePassword = async (storedPassword, password) => {
+  16:   // Accepts the password provided in the login request and the currently stored password
+  17:   // Compares the two passwords for a match
+  18    let passwordMatch = await bcrypt.compare(password, storedPassword)
+  19:   // Returns true if the passwords match
+  20:   // Returns false if the passwords are not a match
+  21    return passwordMatch
+
+  24  const createToken = (payload) => {
+  25:   // Accepts a payload with which to create the token
+  26    let token = jwt.sign(payload, APP_SECRET)
+  27:   // Generates the token and encrypts it, returns the token when the process finishes
+  28    return token
+
+  33      const token = req.headers['authorization'].split(' ')[1]
+  34:     // Gets the token from the request headers {authorization: Bearer Some-Token}
+  35:     // Splits the value of the authorization header
+  36      if (token) {
+  37        res.locals.token = token
+  38:       // If the token exists we add it to the request lifecycle state
+  39        return next()
+
+  49    const { token } = res.locals
+  50:   // Gets the token stored in the request lifecycle state
+  51    try {
+  52      let payload = jwt.verify(token, APP_SECRET)
+  53:     // Verifies the token is legit
+  54      if (payload) {
+  55:       res.locals.payload = payload // Passes the decoded payload to the next function
+  56:       // Calls the next function if the token is valid
+  57        return next()
+
+Food-Crafter--Back-end/routes/CategoryRouter.js:
+  6  	'/',
+  7: 	// middleware.stripToken,
+  8: 	// middleware.verifyToken,
+  9  	categoryCtrl.getAllCategories
+
+Food-Crafter--Back-end/seeders/categories.js:
+   6  		image:
+   7: 			'https://orderisda.org/wp-content/uploads/2016/09/iStock-891284194.jpg',
+   8  	},
+
+  11  		image:
+  12: 			'https://www.shutterstock.com/image-photo/arabic-cuisine-middle-eastern-traditional-600nw-1690553077.jpg',
+  13  	},
+
+  16  		image:
+  17: 			'https://www.tastingtable.com/img/gallery/regional-chinese-food-explained/l-intro-1669836324.jpg',
+  18  	},
+
+  21  		image:
+  22: 			'https://res.cloudinary.com/hz3gmuqw6/image/upload/c_fill,q_auto,w_750/f_auto/tk-traditional-indian-foods-to-taste-in-2022-phpEXAXNS',
+  23  	},
+
+Food-Crafter--Front-end/README.md:
+   6  
+   7: ##### Tala Alshwaier [GitHub](https://github.com/Talal146) | [LinkedIn](www.linkedin.com/in/talal-alshwaier)
+   8  
+   9: ##### Jawad Alberri [GitHub](https://github.com/jawadbri) | [LinkedIn](https://www.linkedin.com/in/jawadalberri/)
+  10  
+  11: ##### Mohammed Saeed [GitHub](https://github.com/m00hammed) | [LinkedIn](www.linkedin.com/in/mohammed-saeed776)
+  12  
+
+  22  
+  23: ![tecno](https://miro.medium.com/v2/resize:fit:560/1*b9xOf5RushSbTofFqjbnyw.png)
+  24  
+
+  39  
+  40: [**_wireframe_**](https://files.fm/u/6ctfwzz7f2) || [**_trello_**](https://trello.com/b/QHehu7mB/food-crafters) || [**_CHD_**](https://drive.google.com/file/d/1cOQICWxWxjNVsLYXrufvmCpKrRWwj-7L/view?usp=sharing) || [**_ERD_**](https://drive.google.com/file/d/1Wjl5sS7x-iTwuP1lkzwSzUpzkRCm0stC/view)
+  41  
+  42: [**_the back-end_**](https://github.com/Talal146/Food-Crafter--Back-end)
+  43  
+
+Food-Crafter--Front-end/vite.config.js:
+  3  
+  4: // https://vitejs.dev/config/
+  5  export default defineConfig({
+
+Food-Crafter--Front-end/public/vite.svg:
+  1: <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" class="iconify iconify--logos" width="31.88" height="32" preserveAspectRatio="xMidYMid meet" viewBox="0 0 256 257"><defs><linearGradient id="IconifyId1813088fe1fbc01fb466" x1="-.828%" x2="57.636%" y1="7.652%" y2="78.411%"><stop offset="0%" stop-color="#41D1FF"></stop><stop offset="100%" stop-color="#BD34FE"></stop></linearGradient><linearGradient id="IconifyId1813088fe1fbc01fb467" x1="43.376%" x2="50.316%" y1="2.242%" y2="89.03%"><stop offset="0%" stop-color="#FFEA83"></stop><stop offset="8.333%" stop-color="#FFDD35"></stop><stop offset="100%" stop-color="#FFA800"></stop></linearGradient></defs><path fill="url(#IconifyId1813088fe1fbc01fb466)" d="M255.153 37.938L134.897 252.976c-2.483 4.44-8.862 4.466-11.382.048L.875 37.958c-2.746-4.814 1.371-10.646 6.827-9.67l120.385 21.517a6.537 6.537 0 0 0 2.322-.004l117.867-21.483c5.438-.991 9.574 4.796 6.877 9.62Z"></path><path fill="url(#IconifyId1813088fe1fbc01fb467)" d="M185.432.063L96.44 17
+
+Food-Crafter--Front-end/src/components/CreateReview.jsx:
+  27        })
+  28:       setReview({ comment: '', recipeId: recipeId, userId: user.id }) 
+  29:       refreshReviews() 
+  30      } catch (error) {
+
+Food-Crafter--Front-end/src/pages/MyRecipes.jsx:
+   4  import Client from '../services/api'
+   5: import Confirm from './Confirm' 
+   6  
+
+   9    const [updateRec, setUpdateRec] = useState(false)
+  10:   const [recipeToDelete, setRecipeToDelete] = useState(null) 
+  11  
+
+  33        setRecipes(recipes.filter((recipe) => recipe._id !== recipeId))
+  34:       setUpdateRec(!updateRec) 
+  35:       setRecipeToDelete(null)
+  36      } catch (error) {
+
+  41    const handleUpdate = (recipeId) => {
+  42:   
+  43      console.log(`Update recipe with id: ${recipeId}`)
+
+  56                recipe={recipe}
+  57:               onDelete={() => setRecipeToDelete(recipe)}
+  58                onUpdate={handleUpdate}
+
+  62              <Confirm
+  63:               isOpen={recipeToDelete && recipeToDelete._id === recipe._id}
+  64:               onCancel={() => setRecipeToDelete(null)} 
+  65:               onConfirm={() => handleDelete(recipe._id)}      />
+
+Food-Crafter--Front-end/src/pages/RecipesList.jsx:
+   4  import RecipeCard from '../components/RecipeCard'
+   5: import Confirm from './Confirm' 
+   6  
+
+   9    const { id } = useParams()
+  10:   const [recipeToDelete, setRecipeToDelete] = useState(null) 
+  11  
+
+  35        setRecipes(recipes.filter((recipe) => recipe._id !== recipeId))
+  36:       setRecipeToDelete(null) 
+  37      } catch (error) {
+
+  49              user={user}
+  50:             onDelete={() => setRecipeToDelete(recipe)} 
+  51            />
+  52            <Confirm
+  53:             isOpen={recipeToDelete && recipeToDelete._id === recipe._id} 
+  54:             onCancel={() => setRecipeToDelete(null)}
+  55:             onConfirm={() => handleDelete(recipe._id)}  />
+
+Food-Crafter--Front-end/src/services/api.js:
+  2  
+  3: export const BASE_URL = 'http://localhost:3001'
+  4  
